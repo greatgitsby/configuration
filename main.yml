@@ -1,0 +1,5 @@
+- name: install dev env
+  hosts: localhost
+  tasks:
+    - include_role:
+        name: trey

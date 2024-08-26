@@ -1,0 +1,19 @@
+- name: download luarocks
+  get_url:
+    url: https://luarocks.org/releases/luarocks-3.11.1.tar.gz
+    dest: /tmp/luarocks.tar.gz
+    remote_src: yes
+
+- name: extract luarocks
+  ansible.builtin.unarchive:
+    src: /tmp/luarocks.tar.gz
+    dest: /tmp
+
+- name: configure and make luarocks
+  ansible.builtin.command: >
+    cd /tmp/luarocks.3.11.1 && ./configure && make
+
+- name: install luarocks
+  become: true
+  ansible.builtin.command: >
+    make install

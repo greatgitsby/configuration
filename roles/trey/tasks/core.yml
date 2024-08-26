@@ -1,0 +1,13 @@
+- name: user.name for git config
+  become_user: "{{ username }}"
+  community.general.git_config:
+    name: user.name
+    scope: global
+    value: "{{ name }}"
+
+- name: user.email for git config
+  become_user: "{{ username }}"
+  community.general.git_config:
+    name: user.email
+    scope: global
+    value: "{{ email }}"

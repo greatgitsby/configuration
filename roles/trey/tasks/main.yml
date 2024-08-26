@@ -1,0 +1,23 @@
+- name: core
+  ansible.builtin.include_tasks:
+    file: core.yml
+
+- name: packages
+  ansible.builtin.include_tasks:
+    file: packages.yml
+
+- name: zsh
+  ansible.builtin.include_tasks:
+    file: zsh.yml
+
+- name: tmux
+  ansible.builtin.include_tasks:
+    file: tmux.yml
+
+- name: neovim
+  ansible.builtin.include_tasks:
+    file: neovim.yml
+
+- name: dev environment
+  ansible.builtin.include_tasks:
+    file: dev-env.yml

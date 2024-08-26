@@ -1,0 +1,57 @@
+- name: remove the neovim package if installed
+  ansible.builtin.package:
+    name: "neovim"
+    state: absent
+
+- name: clone neovim
+  ansible.builtin.git:
+    repo: https://github.com/neovim/neovim.git
+    dest: "/tmp/neovim"
+    depth: 1
+    version: stable
+
+- name: install neovim deps on Debian
+  become: true
+  when: ansible_facts['os_family'] == "Debian"
+  apt:
+    pkg:
+      - ninja-build
+      - gettext
+      - cmake
+      - unzip
+      - curl
+      - build-essential
+      - lua5.1
+      - liblua5.1-0-dev
+    state: latest
+    update_cache: true
+
+- name: install neovim deps on Mac
+  become: true
+  when: ansible_facts['os_family'] == "Darwin"
+  apt:
+    pkg:
+      - ninja
+      - gettext
+      - cmake
+      - curl
+      - lua
+    state: latest
+    update_cache: true
+
+- name: neovim -- make
+  become: true
+  ansible.builtin.command: make CMAKE_BUILD_TYPE=Release
+  args:
+    chdir: "/tmp/neovim"
+
+- name: neovim -- make install
+  become: true
+  ansible.builtin.command: make install
+  args:
+    chdir: "/tmp/neovim"
+
+- name: install rust
+  become: true
+  ansible.builtin.shell: >
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y

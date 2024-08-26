@@ -1,0 +1,55 @@
+- name: ensure zsh with dependencies are installed
+  become: true
+  apt:
+    pkg: 
+      - zsh 
+    state: present
+    update_cache: yes
+
+- name: ensure zsh is the default shell
+  become: true
+  user:
+    name: "{{ username }}"
+    shell: "/usr/bin/zsh"
+
+- name: download omz installation script
+  get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/install_ohmyzsh.sh
+
+- name: run omz installation script
+  command: sh /tmp/install_ohmyzsh.sh --unattended
+  register: ohmyzsh_result
+  failed_when: "'FAILED' in ohmyzsh_result.stderr"
+
+    # This is another one of the items i cannot seem to figure out.  I am using root but i am not getting this to change forever...
+- name: sets default shell to zsh
+  become: true
+  ansible.builtin.command: chsh -s /usr/bin/zsh
+
+- name: install nvm
+  ansible.builtin.shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+  environment:
+    PROFILE: /dev/null
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+- name: install node and set version
+  ansible.builtin.shell: >
+    source ~/.nvm/nvm.sh && nvm install node
+  args:
+    executable: /bin/bash
+
+- name: Get starship install script
+  ansible.builtin.get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/starship_install.sh
+    mode: '0755'
+  register: starship_installation_script
+
+- name: Install starship with installation script
+  become: true
+  ansible.builtin.shell:
+    cmd: /tmp/starship_install.sh --yes
+    executable: /bin/sh

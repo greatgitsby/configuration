@@ -1,0 +1,6 @@
+- name: installing tmux
+  become: true
+  apt:
+    name: tmux
+    state: present
+    update_cache: yes

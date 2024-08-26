@@ -1,0 +1,8 @@
+- name: Install packages
+  become: true
+  apt:
+    pkg:
+      - fzf
+      - ripgrep
+    state: latest
+    update_cache: true
