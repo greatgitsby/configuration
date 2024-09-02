@@ -1,16 +1,5 @@
-- name: Copy dev env (mac)
-  when: ansible_facts['os_family'] == 'Darwin'
+- name: copy dev env
   ansible.builtin.copy:
     src: ../env/
     dest: "{{ home }}"
-    owner: "{{ username }}"
-    mode: '0755'
-
-- name: Copy dev env (non-mac)
-  when: ansible_facts['os_family'] != 'Darwin'
-  ansible.builtin.copy:
-    src: ../env/
-    dest: "{{ home }}"
-    owner: "{{ username }}"
-    group: "{{ username }}"
-    mode: '0755'
+    state: link
