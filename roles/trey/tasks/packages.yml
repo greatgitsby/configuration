@@ -1,9 +1,8 @@
 - name: install packages
-  become: "{{ ansible_facts['os_family'] == 'Darwin' }}"
+  become: "{{ ansible_facts['os_family'] != 'Darwin' }}"
   package:
     name:
       - fzf
       - gh
       - ripgrep
     state: latest
-    update_cache: true

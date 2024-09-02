@@ -1,10 +1,8 @@
 - name: ensure zsh with dependencies are installed
-  become: true
-  apt:
-    pkg: 
+  package:
+    name: 
       - zsh 
     state: present
-    update_cache: yes
 
 - name: ensure zsh is the default shell
   become: true

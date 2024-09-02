@@ -144,7 +144,17 @@ require("lazy").setup({
 
       require('mason-lspconfig').setup({
         ensure_installed = {
+            "ansiblels",
+            "astro",
+            "bashls",
+            "jdtls",
+            "jsonls",
             "html",
+            "lua_ls",
+            "ruff",
+            "rust_analyzer",
+            "tsserver",
+            "yamlls",
         },
         handlers = {
           -- this first function is the "default handler"
