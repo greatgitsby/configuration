@@ -109,5 +109,12 @@ export NVM_DIR="$HOME/.nvm"
 
 eval "$(starship init zsh)"
 
+if [ -d /opt/homebrew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# aliases
+export EDITOR='nvim'
 alias vi='nvim'
 alias vim='nvim'
+
