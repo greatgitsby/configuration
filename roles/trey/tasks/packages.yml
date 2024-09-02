@@ -1,7 +1,7 @@
 - name: install packages
-  become: true
-  apt:
-    pkg:
+  become: "{{ ansible_facts['os_family'] == 'Darwin' }}"
+  package:
+    name:
       - fzf
       - gh
       - ripgrep

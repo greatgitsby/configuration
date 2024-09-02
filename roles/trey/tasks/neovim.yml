@@ -1,4 +1,4 @@
-- name: remove the neovim package if installed
+- truename: remove the neovim package if installed
   ansible.builtin.package:
     name: "neovim"
     state: absent
@@ -13,8 +13,8 @@
 - name: install neovim deps on Debian
   become: true
   when: ansible_facts['os_family'] == "Debian"
-  apt:
-    pkg:
+  package:
+    name:
       - ninja-build
       - gettext
       - cmake
@@ -27,10 +27,9 @@
     update_cache: true
 
 - name: install neovim deps on Mac
-  become: true
   when: ansible_facts['os_family'] == "Darwin"
-  apt:
-    pkg:
+  package:
+    name:
       - ninja
       - gettext
       - cmake
