@@ -2,4 +2,3 @@
   ansible.builtin.copy:
     src: ../env/
     dest: "{{ home }}"
-    state: link
