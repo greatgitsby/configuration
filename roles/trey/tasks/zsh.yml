@@ -1,4 +1,5 @@
 - name: ensure zsh with dependencies are installed
+  become: "{{ ansible_facts['os_family'] != 'Darwin' }}"
   package:
     name: 
       - zsh 
@@ -19,11 +20,6 @@
   command: sh /tmp/install_ohmyzsh.sh --unattended
   register: ohmyzsh_result
   failed_when: "'FAILED' in ohmyzsh_result.stderr"
-
-    # This is another one of the items i cannot seem to figure out.  I am using root but i am not getting this to change forever...
-- name: sets default shell to zsh
-  become: true
-  ansible.builtin.command: chsh -s /usr/bin/zsh
 
 - name: install nvm
   ansible.builtin.shell: >

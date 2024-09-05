@@ -103,18 +103,24 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-eval "$(starship init zsh)"
-
-if [ -d /opt/homebrew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
 # aliases
 export EDITOR='nvim'
 alias vi='nvim'
 alias vim='nvim'
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# brew
+if [ -d /opt/homebrew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# fzf keybindings and completion
+source <(fzf --zsh)
+
+# starship
+eval "$(starship init zsh)"
 

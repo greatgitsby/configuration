@@ -25,6 +25,19 @@
       - liblua5.1-0-dev
     state: latest
 
+- name: install neovim deps on RHEL
+  become: true
+  when: ansible_facts['os_family'] == "RedHat"
+  package:
+    name:
+      - ninja-build
+      - gettext
+      - make
+      - gcc
+      - unzip
+      - curl
+    state: latest
+
 - name: install neovim deps on Mac
   when: ansible_facts['os_family'] == "Darwin"
   package:

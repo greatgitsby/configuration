@@ -2,7 +2,15 @@
   become: "{{ ansible_facts['os_family'] != 'Darwin' }}"
   package:
     name:
-      - fzf
-      - gh
-      - ripgrep
+      - git
     state: latest
+- name: clone fzf
+  ansible.builtin.git:
+    repo: 'https://github.com/junegunn/fzf'
+    dest: '/tmp/fzf'
+    depth: 1
+
+- name: install fzf
+  shell: ./install
+  args:
+    chdir: '/tmp/fzf'
