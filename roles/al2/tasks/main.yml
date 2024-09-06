@@ -1,0 +1,7 @@
+- name: cmake
+  ansible.builtin.include_tasks:
+    file: cmake.yml
+
+- name: tmux
+  ansible.builtin.include_tasks:
+    file: tmux.yml

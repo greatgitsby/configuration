@@ -1,4 +1,4 @@
-name: "Trey Moen"
+full_name: "Trey Moen"
 email: "trey@moen.ai"
 username: "{{ ansible_env.USER }}"
 home: "{{ ansible_env.HOME }}"

@@ -1,5 +1,6 @@
-- name: installing tmux
+- name: installing tmux (except on AL2)
   become: "{{ ansible_facts['os_family'] != 'Darwin' }}"
+  when: ansible_distribution != 'Amazon'
   package:
     name: tmux
     state: present

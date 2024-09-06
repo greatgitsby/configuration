@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ansible-playbook -K main.yml
+ansible-playbook -K -i inventory.yml main.yml

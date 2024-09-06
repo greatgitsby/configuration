@@ -1,0 +1,17 @@
+- name: remove cmake if already installed
+  become: true
+  package:
+    name: cmake
+    state: absent
+
+- name: download cmake 3.30.3 installer (x86)
+  when: ansible_architecture == 'x86_64'
+  get_url:
+    url: https://github.com/Kitware/CMake/releases/download/v3.30.3/cmake-3.30.3-linux-x86_64.sh
+    dest: /tmp/cmake-install.sh
+    mode: "0755"
+
+- name: install cmake
+  become: true
+  command: /tmp/cmake-install.sh --skip-license --prefix=/usr/
+

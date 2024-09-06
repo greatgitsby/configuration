@@ -1,0 +1,44 @@
+- name: install packages
+  become: "{{ ansible_facts['os_family'] != 'Darwin' }}"
+  package:
+    name:
+      - git
+    state: latest
+
+- name: remove fzf if installed already
+  package:
+    name:
+      - fzf
+    state: absent
+
+- name: remove fzf git dir if present
+  ansible.builtin.file:
+    path: '/tmp/fzf'
+    state: absent
+
+- name: clone fzf
+  ansible.builtin.git:
+    repo: 'https://github.com/junegunn/fzf'
+    dest: '/tmp/fzf'
+    depth: 1
+
+- name: run fzf install script
+  ansible.builtin.command: ./install --bin
+  args:
+    chdir: '/tmp/fzf'
+
+- name: install fzf
+  become: true
+  ansible.builtin.copy:
+    src: /tmp/fzf/bin/fzf
+    dest: /usr/local/bin/fzf
+    mode: '0755'
+    remote_src: yes
+
+- name: install fzf-tmux
+  become: true
+  ansible.builtin.copy:
+    src: /tmp/fzf/bin/fzf-tmux
+    dest: /usr/local/bin/fzf-tmux
+    mode: '0755'
+    remote_src: yes

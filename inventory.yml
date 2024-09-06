@@ -1,0 +1,20 @@
+al2:
+  hosts:
+
+macos:
+  hosts:
+    localhost:
+      ansible_connection: local
+
+amazon:
+  children:
+    al2:
+
+personal:
+  children:
+    macos:
+
+core:
+  children:
+    macos:
+    al2:

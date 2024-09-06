@@ -2,10 +2,6 @@
   ansible.builtin.include_tasks:
     file: packages.yml
 
-- name: core
-  ansible.builtin.include_tasks:
-    file: core.yml
-
 - name: zsh
   ansible.builtin.include_tasks:
     file: zsh.yml

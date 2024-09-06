@@ -1,5 +1,16 @@
-- name: install dev env
-  hosts: all
-  tasks:
-    - include_role:
-        name: trey
+- hosts: al2
+  roles:
+    - role: al2
+
+- hosts: personal
+  roles:
+    - role: personal
+
+- hosts: amazon
+  roles:
+    - role: amazon
+
+- hosts: core
+  roles:
+    - role: core
+

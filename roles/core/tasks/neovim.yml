@@ -1,12 +1,20 @@
 - name: remove the neovim package if installed
+  become: "{{ ansible_facts['os_family'] != 'Darwin' }}"
   package:
     name: "neovim"
     state: absent
 
+- name: remove neovim git dir if present
+  become: true
+  ansible.builtin.file:
+    path: '/tmp/neovim'
+    state: absent
+
 - name: clone neovim
+  become: false
   ansible.builtin.git:
     repo: https://github.com/neovim/neovim.git
-    dest: "/tmp/neovim"
+    dest: '/tmp/neovim'
     depth: 1
     version: stable
 
@@ -25,9 +33,9 @@
       - liblua5.1-0-dev
     state: latest
 
-- name: install neovim deps on RHEL
+- name: install neovim deps on AL2
   become: true
-  when: ansible_facts['os_family'] == "RedHat"
+  when: ansible_distribution == "Amazon"
   package:
     name:
       - ninja-build
@@ -44,13 +52,11 @@
     name:
       - ninja
       - gettext
-      - cmake
       - curl
       - lua
     state: latest
 
 - name: neovim -- make
-  become: true
   ansible.builtin.command: make CMAKE_BUILD_TYPE=Release
   args:
     chdir: "/tmp/neovim"
@@ -60,8 +66,3 @@
   ansible.builtin.command: make install
   args:
     chdir: "/tmp/neovim"
-
-- name: install rust
-  become: true
-  ansible.builtin.shell: >
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y

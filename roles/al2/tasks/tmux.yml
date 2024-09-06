@@ -1,0 +1,79 @@
+- name: remove existing tmux
+  become: true
+  package:
+    name: tmux
+    state: absent
+
+- name: install dependencies
+  become: true
+  package:
+    name:
+      - gcc
+      - kernel-devel
+      - make
+      - ncurses-devel
+      - autoconf
+      - automake
+      - pkgconfig
+      - flex 
+      - bison
+    state: present
+
+- name: download libevent
+  ansible.builtin.get_url:
+    url: https://github.com/libevent/libevent/releases/download/release-2.1.11-stable/libevent-2.1.11-stable.tar.gz
+    dest: /tmp/libevent.tar.gz
+
+- name: extract libevent
+  ansible.builtin.unarchive:
+    src: /tmp/libevent.tar.gz
+    dest: /tmp/
+    remote_src: yes
+    creates: /tmp/libevent-2.1.11-stable
+
+- name: libevent -- configure
+  ansible.builtin.command: ./configure --prefix=/usr/local
+  args:
+    chdir: "/tmp/libevent-2.1.11-stable"
+
+
+- name: libevent -- make
+  become: true
+  ansible.builtin.command: make
+  args:
+    chdir: "/tmp/libevent-2.1.11-stable"
+
+- name: libevent -- make install
+  become: true
+  ansible.builtin.command: make install
+  args:
+    chdir: "/tmp/libevent-2.1.11-stable"
+
+- name: clone tmux
+  ansible.builtin.git:
+    repo: https://github.com/tmux/tmux.git
+    dest: "/tmp/tmux"
+    depth: 1
+    version: master
+
+- name: tmux -- autogen
+  ansible.builtin.command: sh autogen.sh
+  args:
+    chdir: "/tmp/tmux"
+
+- name: tmux -- configure
+  ansible.builtin.shell: 'LDFLAGS="-L/usr/local/lib -Wl,-rpath=/usr/local/lib" ./configure --prefix=/usr/local'
+  args:
+    chdir: "/tmp/tmux"
+
+- name: tmux -- make
+  become: true
+  ansible.builtin.command: make
+  args:
+    chdir: "/tmp/tmux"
+
+- name: tmux -- make install
+  become: true
+  ansible.builtin.command: make install
+  args:
+    chdir: "/tmp/tmux"

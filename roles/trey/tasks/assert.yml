@@ -1,4 +1,0 @@
-- name: 'Check mandatory variables are defined'
-  assert:
-    that:
-      - username is defined

@@ -1,0 +1,3 @@
+[submodule "roles/amazon"]
+	path = roles/amazon
+	url = https://github.com/greatgitsby/amazon

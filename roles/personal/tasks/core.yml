@@ -3,7 +3,7 @@
   community.general.git_config:
     name: user.name
     scope: global
-    value: "{{ name }}"
+    value: "{{ full_name }}"
 
 - name: user.email for git config
   become_user: "{{ username }}"
